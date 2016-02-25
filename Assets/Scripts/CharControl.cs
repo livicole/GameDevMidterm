@@ -14,12 +14,10 @@ public class CharControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		float horizontal = Input.GetAxis ("Horizontal");
+		//float horizontal = Input.GetAxis ("Horizontal");
 		float vertical = Input.GetAxis ("Vertical");
 
 		Vector3 movement = transform.forward * walkSpeed * vertical;
 		myController.Move ((movement + Physics.gravity * 2f) * Time.deltaTime);
-
-		transform.Rotate (0f, horizontal * turnSpeed * Time.deltaTime, 0f);
 	}
 }

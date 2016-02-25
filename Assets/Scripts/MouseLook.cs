@@ -5,6 +5,7 @@ public class MouseLook : MonoBehaviour {
 
 	public float rotateSpeed = 150f;
 	float rotationY;
+	public Transform body;
 
 	// Update is called once per frame
 	void Update () {
@@ -19,7 +20,7 @@ public class MouseLook : MonoBehaviour {
 		rotationY += -mouseY * Time.deltaTime * rotateSpeed;
 		rotationY = Mathf.Clamp (rotationY, -80f, 80f); //so we don't keep looking upside down, constrains movement
 
-		transform.Rotate (0f, mouseX * Time.deltaTime * rotateSpeed, 0f); //horizontal mouse move
+		body.Rotate (0f, mouseX * Time.deltaTime * rotateSpeed, 0f); //horizontal mouse move
 		transform.localEulerAngles = new Vector3 (rotationY, transform.localEulerAngles.y, 0f);  //vertical mouse move, setting Z to 0 unrolls camera
 
 		//hide cursor & lock it in center of screen
