@@ -5,7 +5,8 @@ public class CharControl : MonoBehaviour {
 
 	CharacterController myController;
 	public float walkSpeed = 5f;
-	public float turnSpeed = 200f;
+	public float turnSpeed = 150f;
+	public float hitForce = 2f;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,16 @@ public class CharControl : MonoBehaviour {
 		float vertical = Input.GetAxis ("Vertical");
 
 		Vector3 movement = transform.forward * walkSpeed * vertical;
-		myController.Move ((movement + Physics.gravity * 2f) * Time.deltaTime);
+		myController.Move ((movement * 2f) * Time.deltaTime);
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hitObject){
+		Rigidbody bodyRB = hitObject.collider.attachedRigidbody;
+		if (bodyRB == null || bodyRB.isKinematic) {
+			return;
+		}
+
+		Vector3 pushDirection = new Vector3 (hitObject.moveDirection.x, 0f, hitObject.moveDirection.z);
+		bodyRB.velocity = pushDirection * hitForce;
 	}
 }
