@@ -7,6 +7,11 @@ public class MouseLook : MonoBehaviour {
 	float rotationY;
 	public Transform body;
 
+	void Start(){
+		Cursor.visible = false;
+		Cursor.lockState = CursorLockMode.Locked;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -23,11 +28,6 @@ public class MouseLook : MonoBehaviour {
 		body.Rotate (0f, mouseX * Time.deltaTime * rotateSpeed, 0f); //horizontal mouse move
 		transform.localEulerAngles = new Vector3 (rotationY, transform.localEulerAngles.y, 0f);  //vertical mouse move, setting Z to 0 unrolls camera
 
-		//hide cursor & lock it in center of screen
-		if (Input.GetMouseButtonDown (0)) {
-			Cursor.visible = false;
-			Cursor.lockState = CursorLockMode.Locked;
-		}
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
 			Cursor.visible = true;

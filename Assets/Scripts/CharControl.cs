@@ -15,11 +15,13 @@ public class CharControl : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//float horizontal = Input.GetAxis ("Horizontal");
 		float vertical = Input.GetAxis ("Vertical");
+		float horizontal = Input.GetAxis ("Horizontal");
 
 		Vector3 movement = transform.forward * walkSpeed * vertical;
-		myController.Move ((movement * 2f) * Time.deltaTime);
+		Vector3 sideMovement = transform.right * walkSpeed * horizontal;
+		myController.Move(((movement + sideMovement) + Physics.gravity * 2f) * Time.deltaTime);
+
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hitObject){
@@ -28,7 +30,7 @@ public class CharControl : MonoBehaviour {
 			return;
 		}
 
-		Vector3 pushDirection = new Vector3 (hitObject.moveDirection.x, 0f, hitObject.moveDirection.z);
-		bodyRB.velocity = pushDirection * hitForce;
+//		Vector3 pushDirection = new Vector3 (hitObject.moveDirection.x, 0f, hitObject.moveDirection.z);
+//		bodyRB.velocity = pushDirection * hitForce;
 	}
 }
