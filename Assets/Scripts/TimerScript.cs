@@ -8,6 +8,7 @@ public class TimerScript : MonoBehaviour {
 	public float totalTime = 90.0f;
 	public Text timerText;
 	public Image gameOver;
+	public Image quitGame;
 	public Image timerBG;
 	public bool isGameStart = false;
 	public bool isTimeUp = false;
@@ -42,6 +43,7 @@ public class TimerScript : MonoBehaviour {
 		if (totalTime <= 0f) {
 			charControlScript.enabled = false;
 			gameOver.enabled = true;
+			quitGame.enabled = true;
 			totalTime = 0f;
 			timerText.enabled = false;
 			timerBG.enabled = false;

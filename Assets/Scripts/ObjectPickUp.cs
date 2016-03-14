@@ -20,6 +20,7 @@ public class ObjectPickUp : MonoBehaviour {
 	public AudioClip putAwaySound;
 	Image pickUpImage;
 	Image youWonImage;
+	Image quitGame;
 	GameObject startInstructions;
 	GameObject pcLight;
 
@@ -30,11 +31,13 @@ public class ObjectPickUp : MonoBehaviour {
 		playerPos = GameObject.Find ("Player").GetComponent<Transform> ();
 		pickUpImage = GameObject.Find ("ObjectInstructions").GetComponent<Image>();
 		youWonImage = GameObject.Find ("YouWon").GetComponent<Image> ();
+		quitGame = GameObject.Find ("Quit").GetComponent<Image> ();
 		pickUpObject = this.gameObject.GetComponent<Transform> ();
 		pcLight = GameObject.Find ("PCHalo");
 		thisColl = GetComponent<Collider> ();
 		pickUpImage.enabled = false;
 		youWonImage.enabled = false;
+		quitGame.enabled = false;
 		amICurrentlyHoldingSomething = false;
 		haveIWon = false;
 		myAudio = GameObject.Find ("SoundManager").GetComponent<AudioSource> ();
@@ -114,6 +117,7 @@ public class ObjectPickUp : MonoBehaviour {
 		haveIWon = true;
 		pickUpImage.enabled = false;
 		youWonImage.enabled = true;
+		quitGame.enabled = true;
 		timeScript.isGameStart = false;
 	}
 }
