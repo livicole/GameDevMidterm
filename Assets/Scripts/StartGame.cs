@@ -26,9 +26,8 @@ public class StartGame : MonoBehaviour {
 		GameObject gameTimer = GameObject.Find ("Timer");
 		TimerScript timeScript = gameTimer.GetComponent<TimerScript> ();
 
-		if (Input.GetKeyDown (KeyCode.Return)) {
-			Debug.Log ("destroying");
-			Destroy (this.gameObject);
+		if (Input.GetMouseButtonDown(0)) {
+			this.gameObject.SetActive (false);
 			charControlScript.enabled = true;
 			timeScript.isGameStart = true;
 		}

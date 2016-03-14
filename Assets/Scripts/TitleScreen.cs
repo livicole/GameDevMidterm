@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour {
 
-	public Text playAgainText;
+	public Image GameOver;
+	public Image YouWon;
 
 
 	void Update(){
-		if (Input.GetKeyDown (KeyCode.Return) && playAgainText.enabled) {
+		if (Input.GetMouseButtonDown(0) && GameOver.enabled || Input.GetMouseButtonDown(0) && YouWon.enabled) {
 			SceneManager.LoadScene (1);
 		}
 	}

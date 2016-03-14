@@ -7,8 +7,8 @@ public class TimerScript : MonoBehaviour {
 
 	public float totalTime = 90.0f;
 	public Text timerText;
-	public Text gameOver;
-	public Text tryAgain;
+	public Image gameOver;
+	public Image timerBG;
 	public bool isGameStart = false;
 	public bool isTimeUp = false;
 	bool hasSoundPlayed = false;
@@ -25,15 +25,17 @@ public class TimerScript : MonoBehaviour {
 		GameObject charController = GameObject.Find ("Player");
 		CharControl charControlScript = charController.GetComponent<CharControl> ();
 
-
+		string timerTextInSeconds = string.Format ("{1:00}", Mathf.Floor (totalTime / 60), totalTime % 60);
 
 		if (isGameStart == false) {
+			timerBG.enabled = false;
 			timerText.enabled = false;
 			masterMixer.SetFloat ("masterVol", 0f);
 		} else if (isGameStart) {
 			timerText.enabled = true;
+			timerBG.enabled = true;
 			totalTime -= Time.deltaTime;
-			timerText.text = totalTime.ToString();
+			timerText.text = timerTextInSeconds.ToString ();
 			masterMixer.SetFloat ("masterVol", 10f);
 		}
 
@@ -42,7 +44,7 @@ public class TimerScript : MonoBehaviour {
 			gameOver.enabled = true;
 			totalTime = 0f;
 			timerText.enabled = false;
-			tryAgain.enabled = true;
+			timerBG.enabled = false;
 			masterMixer.SetFloat ("masterVol", -80f);
 		}	
 

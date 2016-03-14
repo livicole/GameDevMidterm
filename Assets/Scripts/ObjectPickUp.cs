@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class ObjectPickUp : MonoBehaviour {
 
@@ -18,21 +19,22 @@ public class ObjectPickUp : MonoBehaviour {
 	AudioSource myAudio;
 	public AudioClip putAwaySound;
 	Image pickUpImage;
-	Text winText;
-	Text playAgainText;
+	Image youWonImage;
+	GameObject startInstructions;
+	GameObject pcLight;
 
 	void Start(){
 		//Setting variables.
+		startInstructions = GameObject.Find("Instructions");
 		playerCube = GameObject.Find ("PlayerCube").GetComponent<Transform>();
 		playerPos = GameObject.Find ("Player").GetComponent<Transform> ();
 		pickUpImage = GameObject.Find ("ObjectInstructions").GetComponent<Image>();
-		winText = GameObject.Find ("YouWin").GetComponent<Text>();
-		playAgainText = GameObject.Find ("PlayAgain").GetComponent<Text>();
+		youWonImage = GameObject.Find ("YouWon").GetComponent<Image> ();
 		pickUpObject = this.gameObject.GetComponent<Transform> ();
+		pcLight = GameObject.Find ("PCHalo");
 		thisColl = GetComponent<Collider> ();
 		pickUpImage.enabled = false;
-		winText.enabled = false;
-		playAgainText.enabled = false;
+		youWonImage.enabled = false;
 		amICurrentlyHoldingSomething = false;
 		haveIWon = false;
 		myAudio = GameObject.Find ("SoundManager").GetComponent<AudioSource> ();
@@ -41,9 +43,11 @@ public class ObjectPickUp : MonoBehaviour {
 	void Update(){
 		
 		Vector3 velocityByDistance = (playerCube.position - pickUpObject.position) * 8f;
+		GameObject gameTimer = GameObject.Find ("Timer");
+		TimerScript timeScript = gameTimer.GetComponent<TimerScript> ();
 
 		//Pick up object functions.
-		if (isPickedUp == true && pickUpObject.gameObject.tag != "Phone") {
+		if (isPickedUp == true && pickUpObject.gameObject.tag != "Phone" && timeScript.totalTime > 0) {
 
 			thisColl.attachedRigidbody.useGravity = false;
 			this.gameObject.transform.localEulerAngles = new Vector3 (0f, 0f, 0f);
@@ -54,14 +58,12 @@ public class ObjectPickUp : MonoBehaviour {
 				isPickedUp = false;
 				amICurrentlyHoldingSomething = false;
 				pickUpImage.enabled = false;
-				playAgainText.enabled = false;
 				//Drop object with right click.
 			} else if (Input.GetMouseButtonDown (1)) {
 				myAudio.PlayOneShot (putAwaySound, 1f);
 				Destroy (this.gameObject);
 				amICurrentlyHoldingSomething = false;
 				pickUpImage.enabled = false;
-				playAgainText.enabled = false;
 			}
 			//Bring object to player pos.
 			if ((playerCube.position - pickUpObject.position).magnitude > moveDistance) {
@@ -70,12 +72,18 @@ public class ObjectPickUp : MonoBehaviour {
 				pickUpObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 			}
 
+			if (pickUpObject.gameObject.tag == "PC") {
+				this.gameObject.transform.localEulerAngles = new Vector3 (0f, 90f, 0f);
+				pcLight.SetActive (false);
+			}
+
 		} else if (isPickedUp == false && pickUpObject.gameObject.tag != "Phone") {
 			thisColl.attachedRigidbody.useGravity = true;
+
 		} else if (isPickedUp == true && pickUpObject.gameObject.tag == "Phone") {
 			//End game if object is the phone.
 			thisColl.attachedRigidbody.useGravity = false;
-			this.gameObject.transform.localEulerAngles = new Vector3 (0f, 0f, 0f);
+			this.gameObject.transform.localEulerAngles = new Vector3 (0f, 180f, 180f);
 			if ((playerCube.position - pickUpObject.position).magnitude > moveDistance) {
 				pickUpObject.GetComponent<Rigidbody> ().velocity = velocityByDistance;
 			} else {
@@ -83,18 +91,19 @@ public class ObjectPickUp : MonoBehaviour {
 			}
 
 			if (haveIWon == false) {
-				YouWon ();
+				Invoke ("YouWon", 0.1f);
 			}
 		}
 	}
 
 
 	void OnMouseOver(){
-		
-		if (Input.GetMouseButtonDown (0) && Vector3.Distance (playerPos.transform.position, this.transform.position) < canPickUpDistance && amICurrentlyHoldingSomething == false) {
-			isPickedUp = true;
-			amICurrentlyHoldingSomething = true;
-			timePickedUp = Time.time;
+		if (!startInstructions.activeInHierarchy) {		
+			if (Input.GetMouseButtonDown (0) && Vector3.Distance (playerPos.transform.position, this.transform.position) < canPickUpDistance && amICurrentlyHoldingSomething == false) {
+				isPickedUp = true;
+				amICurrentlyHoldingSomething = true;
+				timePickedUp = Time.time;
+			}
 		}
 	}
 
@@ -104,9 +113,7 @@ public class ObjectPickUp : MonoBehaviour {
 
 		haveIWon = true;
 		pickUpImage.enabled = false;
-		winText.enabled = true;
-		playAgainText.enabled = true;
+		youWonImage.enabled = true;
 		timeScript.isGameStart = false;
-		this.gameObject.transform.localEulerAngles = new Vector3 (0f, 180f, 180f);
 	}
 }
