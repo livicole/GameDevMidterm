@@ -9,7 +9,7 @@ public class ObjectPickUp : MonoBehaviour {
 	Transform pickUpObject;
 	Transform playerCube;
 	Transform playerPos;
-	float canPickUpDistance = 15f;
+	float canPickUpDistance = 9f;
 	float moveDistance = 0.05f;
 	float timePickedUp;
 	Collider thisColl;

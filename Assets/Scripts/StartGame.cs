@@ -11,7 +11,7 @@ public class StartGame : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-		int randomArrayChoose = Random.Range (0, 6);
+		int randomArrayChoose = Random.Range (0, 7);
 		Quaternion phoneRotate = Quaternion.Euler (0f, 0f, 180f);
 		Instantiate (phonePrefab, phonePositions[randomArrayChoose], phoneRotate);
 

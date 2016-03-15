@@ -6,10 +6,14 @@ public class MouseLook : MonoBehaviour {
 	public float rotateSpeed = 150f;
 	float rotationY;
 	public Transform body;
-
+//	public Texture2D cursorCrosshair;
+//	public CursorMode cursorMode = CursorMode.Auto;
+//	public Vector2 hotSpot = new Vector2(-20f,-20f);
+//
 	void Start(){
-		Cursor.visible = false;
 		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = true;
+//		Cursor.SetCursor (cursorCrosshair, hotSpot, cursorMode);
 	}
 
 	// Update is called once per frame
@@ -30,7 +34,6 @@ public class MouseLook : MonoBehaviour {
 
 
 		if (Input.GetKeyDown (KeyCode.Escape)) {
-			Cursor.visible = true;
 			Cursor.lockState = CursorLockMode.None;
 		}
 	}

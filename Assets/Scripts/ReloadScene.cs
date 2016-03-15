@@ -16,7 +16,9 @@ public class ReloadScene : MonoBehaviour {
 
 		if (Input.GetMouseButtonDown (1) && GameOver.enabled || Input.GetMouseButtonDown (1) && YouWon.enabled) {
 			Debug.Log ("quitting");
-			Application.Quit();
+			SceneManager.LoadScene (0);
+			Cursor.lockState = CursorLockMode.None;
+			Cursor.visible = true;
 		}
 	}
 
